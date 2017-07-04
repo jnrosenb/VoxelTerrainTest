@@ -39,7 +39,12 @@ public class VoxelGenerator : MonoBehaviour
 			}
 		}
 
-		triangles.AddRange (new List<int>(){0,1,2,1,3,2,4,5,6,5,7,6,0,1,4,4,5,1,2,3,7,6,3,2,3,7,5,5,3,1,4,6,2,3,4,0});
+		setQuad (0, 2, 3, 1);
+		setQuad (4, 0, 1, 5);
+		setQuad (6, 2, 0, 4);
+		setQuad (7, 3, 2, 6);
+		setQuad (5, 1, 3, 7);
+		setQuad (4, 5, 7, 6);
 	}
 
 
@@ -50,10 +55,24 @@ public class VoxelGenerator : MonoBehaviour
 
 		mesh.SetVertices (this.vertices);
 		mesh.SetTriangles (this.triangles, 0);
-		mesh.RecalculateBounds ();
-		mesh.RecalculateNormals ();
 
 		mc.sharedMesh = null;
 		mc.sharedMesh = mesh;
+
+		mr.material = new Material (Shader.Find("Diffuse"));
+		mr.material.color = Color.white;
 	}
+
+
+	//Given 4 vertices, it creates a quad in which the 2 triangles normals are aligned:
+	private void setQuad(int a, int b, int c, int d)
+	{
+		triangles.Add (a);
+		triangles.Add (b);
+		triangles.Add (d);
+		triangles.Add (b);
+		triangles.Add (c);
+		triangles.Add (d);
+	}
+
 }
