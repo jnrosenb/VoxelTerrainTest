@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [SelectionBase]
-public class VoxelMap : MonoBehaviour 
+public class VoxelMap2D : MonoBehaviour 
 {
 	//Size of the map in unity units:
 	public float size;
@@ -22,10 +22,6 @@ public class VoxelMap : MonoBehaviour
 	// Use this for initialization
 	void Awake () 
 	{
-		BoxCollider coll = gameObject.AddComponent<BoxCollider> ();
-		coll.size = new Vector3(this.size, this.size);
-		//coll.center = Vector3.zero;
-
 		this.transform.position = Vector3.zero;
 
 		chunkSize = size / chunkRes;
@@ -39,13 +35,17 @@ public class VoxelMap : MonoBehaviour
 				createChunk (i, x, y);
 			}
 		}
+
+		BoxCollider coll = gameObject.AddComponent<BoxCollider> ();
+		coll.center = Vector3.zero;
+		coll.size = new Vector3(this.size, this.size);
 	}
 
 	
 	// Update is called once per frame
 	void createChunk (int i, int x, int y) 
 	{
-		VoxelGrid2D chunk = GameObject.Instantiate (gridPrefab, transform).GetComponent<VoxelGrid2D>() as VoxelGrid2D;
+		VoxelGrid2D chunk = GameObject.Instantiate (gridPrefab, transform).GetComponent<VoxelGrid2D>();
 		chunk.gridInit (voxelRes, chunkSize);
 
 		chunk.transform.localPosition = new Vector3(x * chunkSize - chunkSize/2f, y * chunkSize - chunkSize/2f, 0f);
