@@ -22,7 +22,7 @@ public class VoxelChunk : MonoBehaviour
 
 
 	// Use this for initialization
-	void Start () 
+	void Awake () 
 	{
 		//For now, I'm choosing to keep the voxels on a 3D array:
 		voxelGrid = new GridCell[voxelRes, voxelRes, voxelRes];
@@ -38,6 +38,8 @@ public class VoxelChunk : MonoBehaviour
 
 		//Sets the grid with the voxel cells:
 		setVoxelGrid ();
+
+		Debug.Log ("Grid ready and set!");
 	}
 
 
@@ -66,28 +68,36 @@ public class VoxelChunk : MonoBehaviour
 		float z = z1 * voxelWidth;
 
 		//First, we have to set every one of the vertices and their value: (CHECK VALUES)
-		XYZ[] vertices = new XYZ[] {
-			new XYZ (x, y, z),
-			new XYZ (x + voxelWidth, y, z),
-			new XYZ (x + voxelWidth, y, z + voxelWidth),
-			new XYZ (x, y, z + voxelWidth),
-			new XYZ (x, y + voxelWidth, z),
-			new XYZ (x + voxelWidth, y + voxelWidth, z),
-			new XYZ (x + voxelWidth, y + voxelWidth, z + voxelWidth),
-			new XYZ (x, y + voxelWidth, z + voxelWidth)
+		Vector3[] vertices = new Vector3[] {
+			new Vector3 (x, y, z),
+			new Vector3 (x + voxelWidth, y, z),
+			new Vector3 (x + voxelWidth, y, z + voxelWidth),
+			new Vector3 (x, y, z + voxelWidth),
+			new Vector3 (x, y + voxelWidth, z),
+			new Vector3 (x + voxelWidth, y + voxelWidth, z),
+			new Vector3 (x + voxelWidth, y + voxelWidth, z + voxelWidth),
+			new Vector3 (x, y + voxelWidth, z + voxelWidth)
 		};
 
 		//Here we set the value for each vertex (temporal):
 		float[] values = new float[] 
 		{
-			Random.Range(0f, 1f),
-			Random.Range(0f, 1f),
-			Random.Range(0f, 1f),
-			Random.Range(0f, 1f),
-			Random.Range(0f, 1f),
-			Random.Range(0f, 1f),
-			Random.Range(0f, 1f),
-			Random.Range(0f, 1f)	
+//			Random.Range(-1f, y/voxelRes),
+//			Random.Range(-1f, y/voxelRes),
+//			Random.Range(-1f, y/voxelRes),
+//			Random.Range(-1f, y/voxelRes),
+//			Random.Range(-1f, y/voxelRes),
+//			Random.Range(-1f, y/voxelRes),
+//			Random.Range(-1f, y/voxelRes),
+//		    Random.Range(-1f, y/voxelRes)	
+			(float)SimplexNoise.noise(x, y, z),
+			(float)SimplexNoise.noise(x + voxelWidth, y, z),
+			(float)SimplexNoise.noise(x + voxelWidth, y, z + voxelWidth),
+			(float)SimplexNoise.noise(x, y, z + voxelWidth),
+			(float)SimplexNoise.noise(x, y + voxelWidth, z),
+			(float)SimplexNoise.noise(x + voxelWidth, y + voxelWidth, z),
+			(float)SimplexNoise.noise(x + voxelWidth, y + voxelWidth, z + voxelWidth),
+			(float)SimplexNoise.noise(x, y + voxelWidth, z + voxelWidth)
 		};
 			
 		//Data for the voxel  (center and interpolated value): NOT USED YET **

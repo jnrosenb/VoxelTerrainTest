@@ -21,8 +21,11 @@ public class chunkManager : MonoBehaviour
 		this.mf = GetComponent<MeshFilter> ();
 		this.chunk = GetComponent<VoxelChunk> ();
 
-		//This index will grow every pass to represent the extra vertices found:
-		int vertexIndex = 0;
+		mr.material = new Material (Shader.Find("Diffuse"));
+		mr.material.color = Color.white;
+
+		//Represents the offset to add to the vertices index to represent their real index:
+		int offset = 0;
 
 		//EXPERIMENT TO SEE WETHER THE VOXEL TO POLYGON WORKS:
 		for (int y = 0; y < chunk.voxelRes; y++)
@@ -32,26 +35,28 @@ public class chunkManager : MonoBehaviour
 				for (int x = 0; x < chunk.voxelRes; x++)
 				{
 					GridCell cell = chunk.voxelGrid [x, y, z];
-					Triangle[] triArray = new Triangle[5];
-					XYZ[] vertlist = new XYZ[12];
-
-					int triangleAmount = MarchingCubes.Polygonise (cell, 0f, ref triArray, ref vertlist);
-
-					/*
-					for (int i = 0; i < 12; i++)
+					Triangle[] triArray = new Triangle[] 
 					{
-						if (vertlist [i] != null)
-							vertexIndex++;
-					}
+						new Triangle(new Vector3[3]),
+						new Triangle(new Vector3[3]),
+						new Triangle(new Vector3[3]),
+						new Triangle(new Vector3[3]),
+						new Triangle(new Vector3[3])		
+					};
 
-					for (int i = 0, v = 0; i < 12; i++)
-					{
-						if (vertlist [i] != null)
-							vertices.Add (new Vector3(vertlist[i].x + ));
-					}
-					//*/
+					int triangleAmount = MarchingCubes.Polygonise (cell, 0.5f, ref triArray, ref vertices, ref triangles, ref offset);// ***EXPERIMENT*** 
 				}
 			}
 		}
+
+		Debug.Log ("Vertices has: " + vertices.Count + " elements.");
+		Debug.Log ("Triangles has: " + (triangles.Count / 3f) + " polygons.");
+		Debug.Log ("Now preparing to draw!");
+
+		mf.mesh.SetVertices (vertices);
+		mf.mesh.SetTriangles (triangles, 0);
+		//missing the normals***
+		//Missing the uvs***
+		mf.mesh.RecalculateNormals ();
 	}
 }
