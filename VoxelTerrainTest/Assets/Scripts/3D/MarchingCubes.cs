@@ -5,39 +5,15 @@ using UnityEngine;
 /*
  * BASED ON PAUL BOURKE'S CODE
  * http://paulbourke.net/geometry/polygonise/
- * 
 */
-
-//This represents a vertex:
-public struct XYZ
-{
-	public float x;
-	public float y;
-	public float z;
-};
-
-//Each triangle contains: 3 vertices.
-public struct Triangle
-{
-	public XYZ[] p; // [3]
-};
-
-//Each gridCell contains: An array of 8 vertices. An array of 8 values (the values at each vertex).
-public struct GridCell
-{
-	public XYZ[] p; // [8]
-	public float[] val; // [8]
-};
-
-
 public static class MarchingCubes
 {
    	// Given a grid cell and an isolevel, calculate the triangular facets required to represent the isosurface through the cell.
 	// Return the number of triangular facets. The array "triangles" will be loaded up with the vertices at most 5 triangular facets.
 	// 0 will be returned if the grid cell is either totally above of totally below the isolevel.
-	public static int Polygonise(GridCell grid, float isolevel, ref Triangle[] triangles)
+	public static int Polygonise(GridCell grid, float isolevel, ref Triangle[] triangles, ref XYZ[] vertlist)
 	{
-		XYZ[] vertlist = new XYZ[12]; 	// Array of potential new vertices for new triangles. Max 12.
+		//XYZ[] vertlist = new XYZ[12]; 	// Array of potential new vertices for new triangles. Max 12.
 		int ntriang; 					// Number of facets to be created on the gridcell.
 		int cubeindex = 0; 				// The int that is gonna be used as the index for the first lookuptable. 
 
@@ -111,11 +87,11 @@ public static class MarchingCubes
 		XYZ p;
 
 		// If the isolevel is too close to one of the vertices or the vertices are almost together.
-		if (Mathf.Abs(isolevel-valp1) < 0.00001f)
+		if (Mathf.Abs(isolevel-valp1) < 0.0001f)
 			return p1;
-		if (Mathf.Abs(isolevel-valp2) < 0.00001f)
+		if (Mathf.Abs(isolevel-valp2) < 0.0001f)
 			return p2;
-		if (Mathf.Abs(valp1-valp2) < 0.00001f)
+		if (Mathf.Abs(valp1-valp2) < 0.0001f)
 			return p1;
 
 		// Otherwise, interpolate:
