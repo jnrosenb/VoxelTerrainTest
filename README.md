@@ -1,7 +1,7 @@
 # VoxelTerrainTest
-First aproximation into making a voxel terrain project in unity.
+First aproximation into making a voxel terrain in unity.
 
-Project in which I experiment with the notion of voxels and how to use them to build a 3d terrain. 
+Project in which I experiment with the notion of voxels chunks and how to use them to build a 3d terrain. 
 
 For the meshing, I'm using as a base the code written by Paul Bourke (poligonizing a scalar field), modified to work on c#.
 
