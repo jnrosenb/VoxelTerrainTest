@@ -10,15 +10,20 @@ public class VoxelChunk : MonoBehaviour
 	//number of voxels in each axis. For now, it will always be equal for all 3 axis:
 	public int voxelRes = 5;
 	//This represents the distance from one voxel cell to the next:
-	private float voxelWidth;
+	public float voxelWidth;
 
 	//Other useful data:
 	private float voxelHalfDist;
 	private int cellCount;
 	private int vertexCount;
 
+	//Visual aid
+	private LineRenderer[] lineArray;
+	public bool seeBoundingBox = false;
+
 	//The 3d array that contains each cell:
 	public GridCell[,,] voxelGrid;
+
 
 
 	// Use this for initialization
@@ -34,12 +39,15 @@ public class VoxelChunk : MonoBehaviour
 		//Other useful values:
 		voxelHalfDist = voxelWidth / 2f;
 		cellCount = voxelRes * voxelRes * voxelRes;
-		vertexCount = (voxelRes + 1) * (voxelRes + 1) * (voxelRes + 1);
+		//vertexCount = (voxelRes + 1) * (voxelRes + 1) * (voxelRes + 1);
 
+		//Visual aid:
+		lineArray = new LineRenderer[cellCount];
+		
 		//Sets the grid with the voxel cells:
 		setVoxelGrid ();
 
-		Debug.Log ("Grid ready and set!");
+//		Debug.Log ("Grid ready and set!");
 	}
 
 
@@ -67,6 +75,10 @@ public class VoxelChunk : MonoBehaviour
 		float y = y1 * voxelWidth;
 		float z = z1 * voxelWidth;
 
+		//Data for the voxel  (center and interpolated value): NOT USED YET **
+		Vector3 voxCenter = new Vector3 (x + voxelHalfDist, y + voxelHalfDist, z + voxelHalfDist);
+		//float value = 0f;
+
 		//First, we have to set every one of the vertices and their value: (CHECK VALUES)
 		Vector3[] vertices = new Vector3[] {
 			new Vector3 (x, y, z),
@@ -79,41 +91,98 @@ public class VoxelChunk : MonoBehaviour
 			new Vector3 (x, y + voxelWidth, z + voxelWidth)
 		};
 
-		//Here we set the value for each vertex (temporal):
+
+		//* Constant value, changing vertices:
 		float[] values = new float[] 
 		{
-//			Random.Range(-1f, y/voxelRes),
-//			Random.Range(-1f, y/voxelRes),
-//			Random.Range(-1f, y/voxelRes),
-//			Random.Range(-1f, y/voxelRes),
-//			Random.Range(-1f, y/voxelRes),
-//			Random.Range(-1f, y/voxelRes),
-//			Random.Range(-1f, y/voxelRes),
-//		    Random.Range(-1f, y/voxelRes)	
-			(float)SimplexNoise.noise(x, y, z),
-			(float)SimplexNoise.noise(x + voxelWidth, y, z),
-			(float)SimplexNoise.noise(x + voxelWidth, y, z + voxelWidth),
-			(float)SimplexNoise.noise(x, y, z + voxelWidth),
-			(float)SimplexNoise.noise(x, y + voxelWidth, z),
-			(float)SimplexNoise.noise(x + voxelWidth, y + voxelWidth, z),
-			(float)SimplexNoise.noise(x + voxelWidth, y + voxelWidth, z + voxelWidth),
-			(float)SimplexNoise.noise(x, y + voxelWidth, z + voxelWidth)
-		};
-			
-		//Data for the voxel  (center and interpolated value): NOT USED YET **
-		Vector3 voxCenter = new Vector3 (x + voxelHalfDist, y + voxelHalfDist, z + voxelHalfDist);
-		float value = 0f;
+			(y / chunkSize) * Mathf.PerlinNoise((x/chunkSize), (z/chunkSize)),
+			(y / chunkSize) * Mathf.PerlinNoise(((x + voxelWidth)/chunkSize), (z/chunkSize)),
+			(y / chunkSize) * Mathf.PerlinNoise(((x + voxelWidth)/chunkSize), ((z + voxelWidth)/chunkSize)),
+			(y / chunkSize) * Mathf.PerlinNoise((x/chunkSize), ((z + voxelWidth)/chunkSize)),
+			((y + voxelWidth) / chunkSize) * Mathf.PerlinNoise((x/chunkSize), (z/chunkSize)),
+			((y + voxelWidth) / chunkSize) * Mathf.PerlinNoise(((x + voxelWidth)/chunkSize), (z/chunkSize)),
+			((y + voxelWidth) / chunkSize) * Mathf.PerlinNoise(((x + voxelWidth)/chunkSize), ((z + voxelWidth)/chunkSize)),
+			((y + voxelWidth) / chunkSize) * Mathf.PerlinNoise((x/chunkSize), ((z + voxelWidth)/chunkSize))
+
+//			(y / chunkSize) * (float)SimplexNoise.noise((x/chunkSize), (z/chunkSize)),
+//			(y / chunkSize) * (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), (z/chunkSize)),
+//			(y / chunkSize) * (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), ((z + voxelWidth)/chunkSize)),
+//			(y / chunkSize) * (float)SimplexNoise.noise((x/chunkSize), ((z + voxelWidth)/chunkSize)),
+//			((y + voxelWidth) / chunkSize) * (float)SimplexNoise.noise((x/chunkSize), (z/chunkSize)),
+//			((y + voxelWidth) / chunkSize) * (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), (z/chunkSize)),
+//			((y + voxelWidth) / chunkSize) * (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), ((z + voxelWidth)/chunkSize)),
+//			((y + voxelWidth) / chunkSize) * (float)SimplexNoise.noise((x/chunkSize), ((z + voxelWidth)/chunkSize))
+		};	
+		//*/
+
+
+		/* This gives a minecraft sort of representation (Isovalue given varies, constant vertices):
+		float[] values = new float[] 
+		{
+			y / chunkSize,
+			y / chunkSize,
+			y / chunkSize,
+			y / chunkSize,
+			(y + voxelWidth) / chunkSize,
+			(y + voxelWidth) / chunkSize,
+			(y + voxelWidth) / chunkSize,
+			(y + voxelWidth) / chunkSize
+		};	
+		//*/
+
+		//Visual representation of the cell (for debugging purposes):
+		if (seeBoundingBox)
+			drawCellSpace(voxCenter, voxelHalfDist, y1 * voxelRes * voxelRes + z1 * voxelRes + x1);
 
 		//Finally, we create the voxel cell and store it:
 		return new GridCell (vertices, values);
 	}
 
 
-	//This method returns the noise at the given coords. Right now it is just a random call:
-	private float getValue(int x, int y, int z)
+	//Debug method for visualizing the cells:
+	private void drawCellSpace(Vector3 centerSpace, float halfSpaceLength, int index)
 	{
-		return Random.Range (0f, 1f);
-	}
+		LineRenderer line = lineArray [index];
+		GameObject obj = new GameObject ();
 
+		obj.hideFlags = HideFlags.HideInHierarchy;
+		line = obj.AddComponent<LineRenderer> ();
+		line.useWorldSpace = true;
+		line.SetWidth (0.02f, 0.02f);
+		line.SetVertexCount (16);
+
+		Vector3[] vertices = new Vector3[8];
+
+		for(int y = 0; y < 2; y++)
+		{
+			for(int z = 0; z < 2; z++)
+			{
+				for(int x = 0; x < 2; x++)
+				{
+					Vector3 gen = new Vector3 (	centerSpace.x + halfSpaceLength * Mathf.Pow(-1f, x), 
+						centerSpace.y + halfSpaceLength * Mathf.Pow(-1f, y), 
+						centerSpace.z + halfSpaceLength * Mathf.Pow(-1f, z));
+					vertices[4 * x + 2 * y + z] = gen;
+				}
+			}
+		}
+
+		line.SetPosition (0, vertices[0]);
+		line.SetPosition (1, vertices[1]);
+		line.SetPosition (2, vertices[3]);
+		line.SetPosition (3, vertices[2]);
+		line.SetPosition (4, vertices[0]);
+		line.SetPosition (5, vertices[4]);
+		line.SetPosition (6, vertices[5]);
+		line.SetPosition (7, vertices[1]);
+		line.SetPosition (8, vertices[5]);
+		line.SetPosition (9, vertices[7]);
+		line.SetPosition (10, vertices[3]);
+		line.SetPosition (11, vertices[7]);
+		line.SetPosition (12, vertices[6]);
+		line.SetPosition (13, vertices[2]);
+		line.SetPosition (14, vertices[6]);
+		line.SetPosition (15, vertices[4]);
+	}
 
 }//EndOfClass: VoxelChunk-----//

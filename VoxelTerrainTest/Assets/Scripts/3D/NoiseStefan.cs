@@ -42,14 +42,17 @@ public class SimplexNoise
 		138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
 	};
 
+
 	// To remove the need for index wrapping, double the permutation table length
 	private static int[] perm = new int[512];
+
 
 	static SimplexNoise() 
 	{ 
 		for(int i=0; i<512; i++) 
 			perm[i]=p[i & 255]; 
 	} // moved to constructor
+
 
 	// A lookup table to traverse the simplex around a given point in 4D.
 	// Details can be found where this table is used, in the 4D noise method.
@@ -147,42 +150,65 @@ public class SimplexNoise
 	}
 
 
-	// 3D simplex noise****************************************
+	// 3D simplex noise*******************************************
 	public static double noise(double xin, double yin, double zin) 
 	{
 		double n0, n1, n2, n3; // Noise contributions from the four corners
+
 		// Skew the input space to determine which simplex cell we're in
 		double F3 = 1.0/3.0;
+
 		double s = (xin+yin+zin)*F3; // Very nice and simple skew factor for 3D
+
 		int i = fastfloor(xin+s);
 		int j = fastfloor(yin+s);
 		int k = fastfloor(zin+s);
+
 		double G3 = 1.0/6.0; // Very nice and simple unskew factor, too
 		double t = (i+j+k)*G3; 
+
 		double X0 = i-t; // Unskew the cell origin back to (x,y,z) space
 		double Y0 = j-t;
 		double Z0 = k-t;
+
 		double x0 = xin-X0; // The x,y,z distances from the cell origin
 		double y0 = yin-Y0;
 		double z0 = zin-Z0;
+
 		// For the 3D case, the simplex shape is a slightly irregular tetrahedron.
 		// Determine which simplex we are in.
 		int i1, j1, k1; // Offsets for second corner of simplex in (i,j,k) coords
 		int i2, j2, k2; // Offsets for third corner of simplex in (i,j,k) coords
 
-		if(x0>=y0) 
+		if(x0 >= y0) 
 		{
-			if(y0>=z0)
-			{ i1=1; j1=0; k1=0; i2=1; j2=1; k2=0; } // X Y Z order
-			else if(x0>=z0) { i1=1; j1=0; k1=0; i2=1; j2=0; k2=1; } // X Z Y order
-			else { i1=0; j1=0; k1=1; i2=1; j2=0; k2=1; } // Z X Y order
+			if(y0 >= z0)
+			{ 
+				i1=1; j1=0; k1=0; i2=1; j2=1; k2=0; 
+			} // X Y Z order
+			else if(x0 >= z0) 
+			{ 
+				i1=1; j1=0; k1=0; i2=1; j2=0; k2=1; 
+			} // X Z Y order
+			else 
+			{ 
+				i1=0; j1=0; k1=1; i2=1; j2=0; k2=1; 
+			} // Z X Y order
 		}
-
 		else 
 		{ // x0<y0
-			if(y0<z0) { i1=0; j1=0; k1=1; i2=0; j2=1; k2=1; } // Z Y X order
-			else if(x0<z0) { i1=0; j1=1; k1=0; i2=0; j2=1; k2=1; } // Y Z X order
-			else { i1=0; j1=1; k1=0; i2=1; j2=1; k2=0; } // Y X Z order
+			if(y0 < z0) 
+			{ 
+				i1=0; j1=0; k1=1; i2=0; j2=1; k2=1; 
+			} // Z Y X order
+			else if(x0 < z0) 
+			{ 
+				i1=0; j1=1; k1=0; i2=0; j2=1; k2=1; 
+			} // Y Z X order
+			else 
+			{ 
+				i1=0; j1=1; k1=0; i2=1; j2=1; k2=0; 
+			} // Y X Z order
 		}
 
 		// A step of (1,0,0) in (i,j,k) means a step of (1-c,-c,-c) in (x,y,z),
@@ -197,7 +223,8 @@ public class SimplexNoise
 		double z2 = z0 - k2 + 2.0*G3;
 		double x3 = x0 - 1.0 + 3.0*G3; // Offsets for last corner in (x,y,z) coords
 		double y3 = y0 - 1.0 + 3.0*G3;
-		double z3 = z0 - 1.0 + 3.0*G3;
+		double z3 = z0 - 1.0 + 3.0*G3; 
+
 		// Work out the hashed gradient indices of the four simplex corners
 		int ii = i & 255;
 		int jj = j & 255;
@@ -206,6 +233,7 @@ public class SimplexNoise
 		int gi1 = perm[ii+i1+perm[jj+j1+perm[kk+k1]]] % 12;
 		int gi2 = perm[ii+i2+perm[jj+j2+perm[kk+k2]]] % 12;
 		int gi3 = perm[ii+1+perm[jj+1+perm[kk+1]]] % 12;
+
 		// Calculate the contribution from the four corners
 		double t0 = 0.6 - x0*x0 - y0*y0 - z0*z0;
 

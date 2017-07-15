@@ -6,6 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(MeshRenderer))]
 public class chunkManager : MonoBehaviour 
 {
+	[Range(-1.0f, 1.0f)]
+	public float isovalue = 0.0f;
+
 	private MeshFilter mf;
 	private MeshRenderer mr;
 	private VoxelChunk chunk;
@@ -44,7 +47,9 @@ public class chunkManager : MonoBehaviour
 						new Triangle(new Vector3[3])		
 					};
 
-					int triangleAmount = MarchingCubes.Polygonise (cell, 0.5f, ref triArray, ref vertices, ref triangles, ref offset);// ***EXPERIMENT*** 
+					//isovalue = Mathf.PerlinNoise ((x * chunk.voxelWidth / chunk.chunkSize), (z * chunk.voxelWidth / chunk.chunkSize));
+					MarchingCubes.Polygonise (cell, isovalue, ref triArray, ref vertices, ref triangles, ref offset);// ***EXPERIMENT*** 
+
 				}
 			}
 		}
@@ -57,6 +62,5 @@ public class chunkManager : MonoBehaviour
 		mf.mesh.SetTriangles (triangles, 0);
 		//missing the normals***
 		//Missing the uvs***
-		mf.mesh.RecalculateNormals ();
 	}
 }
