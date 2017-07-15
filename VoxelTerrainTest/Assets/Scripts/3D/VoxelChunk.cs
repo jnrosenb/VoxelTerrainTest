@@ -13,6 +13,7 @@ public class VoxelChunk : MonoBehaviour
 	public float voxelWidth;
 
 	//Other useful data:
+	public bool halfInterpolation = false;
 	private float voxelHalfDist;
 	private int cellCount;
 	private int vertexCount;

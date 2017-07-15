@@ -48,7 +48,7 @@ public class chunkManager : MonoBehaviour
 					};
 
 					//isovalue = Mathf.PerlinNoise ((x * chunk.voxelWidth / chunk.chunkSize), (z * chunk.voxelWidth / chunk.chunkSize));
-					MarchingCubes.Polygonise (cell, isovalue, ref triArray, ref vertices, ref triangles, ref offset);// ***EXPERIMENT*** 
+					MarchingCubes.Polygonise (cell, isovalue, chunk.halfInterpolation, ref triArray, ref vertices, ref triangles, ref offset);// ***EXPERIMENT*** 
 
 				}
 			}
