@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(MeshCollider))]
 public class chunkManager : MonoBehaviour 
 {
 	[Range(-1.0f, 1.0f)]
@@ -11,6 +12,7 @@ public class chunkManager : MonoBehaviour
 
 	private MeshFilter mf;
 	private MeshRenderer mr;
+	private MeshCollider mc;
 	private VoxelChunk chunk;
 
 	private List<Vector3> vertices = new List<Vector3> ();
@@ -22,6 +24,7 @@ public class chunkManager : MonoBehaviour
 	{
 		this.mr = GetComponent<MeshRenderer> ();
 		this.mf = GetComponent<MeshFilter> ();
+		this.mc = GetComponent<MeshCollider> ();
 		this.chunk = GetComponent<VoxelChunk> ();
 
 		mr.material = new Material (Shader.Find("Diffuse"));
@@ -60,6 +63,9 @@ public class chunkManager : MonoBehaviour
 
 		mf.mesh.SetVertices (vertices);
 		mf.mesh.SetTriangles (triangles, 0);
+
+		mc.sharedMesh = null;
+		mc.sharedMesh = mf.mesh;
 		//missing the normals***
 		//Missing the uvs***
 	}
