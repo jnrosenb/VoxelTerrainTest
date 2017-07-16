@@ -93,7 +93,40 @@ public class VoxelChunk : MonoBehaviour
 		};
 
 
-		//* Constant value, changing vertices:
+		//* 3D Noise terrains:
+		float[] values = new float[] 
+		{
+//			(float)SimplexNoise.noise((x/chunkSize), (y / chunkSize), (z/chunkSize)),
+//			(float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), (y / chunkSize), (z/chunkSize)),
+//			(float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), (y / chunkSize), ((z + voxelWidth)/chunkSize)),
+//			(float)SimplexNoise.noise((x/chunkSize), (y / chunkSize), ((z + voxelWidth)/chunkSize)),
+//			(float)SimplexNoise.noise((x/chunkSize), ((y + voxelWidth) / chunkSize), (z/chunkSize)),
+//			(float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize), (z/chunkSize)),
+//			(float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize), ((z + voxelWidth)/chunkSize)),
+//			(float)SimplexNoise.noise((x/chunkSize), ((y + voxelWidth) / chunkSize), ((z + voxelWidth)/chunkSize))
+
+//			(y / chunkSize) * (float)SimplexNoise.noise((x/chunkSize), (y / chunkSize), (z/chunkSize)),
+//			(y / chunkSize) * (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), (y / chunkSize), (z/chunkSize)),
+//			(y / chunkSize) * (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), (y / chunkSize), ((z + voxelWidth)/chunkSize)),
+//			(y / chunkSize) * (float)SimplexNoise.noise((x/chunkSize), (y / chunkSize), ((z + voxelWidth)/chunkSize)),
+//			((y + voxelWidth) / chunkSize) * (float)SimplexNoise.noise((x/chunkSize), ((y + voxelWidth) / chunkSize), (z/chunkSize)),
+//			((y + voxelWidth) / chunkSize) * (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize), (z/chunkSize)),
+//			((y + voxelWidth) / chunkSize) * (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize), ((z + voxelWidth)/chunkSize)),
+//			((y + voxelWidth) / chunkSize) * (float)SimplexNoise.noise((x/chunkSize), ((y + voxelWidth) / chunkSize), ((z + voxelWidth)/chunkSize))
+
+			(y / chunkSize) + (float)SimplexNoise.noise((x/chunkSize), (y / chunkSize), (z/chunkSize)),
+			(y / chunkSize) + (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), (y / chunkSize), (z/chunkSize)),
+			(y / chunkSize) + (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), (y / chunkSize), ((z + voxelWidth)/chunkSize)),
+			(y / chunkSize) + (float)SimplexNoise.noise((x/chunkSize), (y / chunkSize), ((z + voxelWidth)/chunkSize)),
+			((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise((x/chunkSize), ((y + voxelWidth) / chunkSize), (z/chunkSize)),
+			((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize), (z/chunkSize)),
+			((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize), ((z + voxelWidth)/chunkSize)),
+			((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise((x/chunkSize), ((y + voxelWidth) / chunkSize), ((z + voxelWidth)/chunkSize))
+		};	
+		//*/
+
+
+		/* Constant value, changing vertices:
 		float[] values = new float[] 
 		{
 			(y / chunkSize) * Mathf.PerlinNoise((x/chunkSize), (z/chunkSize)),
@@ -113,21 +146,6 @@ public class VoxelChunk : MonoBehaviour
 //			((y + voxelWidth) / chunkSize) * (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), (z/chunkSize)),
 //			((y + voxelWidth) / chunkSize) * (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), ((z + voxelWidth)/chunkSize)),
 //			((y + voxelWidth) / chunkSize) * (float)SimplexNoise.noise((x/chunkSize), ((z + voxelWidth)/chunkSize))
-		};	
-		//*/
-
-
-		/* This gives a minecraft sort of representation (Isovalue given varies, constant vertices):
-		float[] values = new float[] 
-		{
-			y / chunkSize,
-			y / chunkSize,
-			y / chunkSize,
-			y / chunkSize,
-			(y + voxelWidth) / chunkSize,
-			(y + voxelWidth) / chunkSize,
-			(y + voxelWidth) / chunkSize,
-			(y + voxelWidth) / chunkSize
 		};	
 		//*/
 
