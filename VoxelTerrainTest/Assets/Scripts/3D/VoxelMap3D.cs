@@ -16,15 +16,13 @@ public class VoxelMap3D : MonoBehaviour
 	private float xSize;
 	private float zSize;
 
-	private Dictionary<Vector2, VoxelChunk> chunkDic;
-	private List<VoxelChunk> chunkList;
+	//private Dictionary<Vector2, VoxelChunk> chunkDic;
 
 
 	// Use this for initialization
 	void Start () 
 	{
-		chunkList = new List<VoxelChunk> ();
-		chunkDic = new Dictionary<Vector2, VoxelChunk> ();
+		//chunkDic = new Dictionary<Vector2, VoxelChunk> ();
 
 		xSize = xres * chunkSize;
 		zSize = zres * chunkSize;
