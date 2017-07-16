@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class movementController : MonoBehaviour 
+public class MovementController : MonoBehaviour 
 {
 	public float jumpStrength = 3f;
 	public float movementSpeed = 5f;
@@ -21,22 +21,26 @@ public class movementController : MonoBehaviour
 	{
 		if (Input.GetKey (KeyCode.W))
 		{
-			rgbdy.AddForce (new Vector3(GetComponentInChildren<Transform>().forward.x, 0f, GetComponentInChildren<Transform>().forward.z) * movementSpeed);
+			rgbdy.AddForce (transform.forward * movementSpeed);
 		}
 		if (Input.GetKey (KeyCode.S))
 		{
-			rgbdy.AddForce (-new Vector3(GetComponentInChildren<Transform>().forward.x, 0f, GetComponentInChildren<Transform>().forward.z) * movementSpeed);
+			rgbdy.AddForce (-transform.forward * movementSpeed);
 		}
 		if (Input.GetKey (KeyCode.D))
 		{
-			GetComponentInChildren<Transform>().Rotate (new Vector3(0f, rotateSpeed * Time.deltaTime, 0f), Space.Self);
+			rgbdy.AddForce (transform.right * movementSpeed);
 		}
 		if (Input.GetKey (KeyCode.A))
 		{
-			GetComponentInChildren<Transform>().Rotate (new Vector3(0f, -rotateSpeed * Time.deltaTime, 0f), Space.Self);
+			rgbdy.AddForce (-transform.right * movementSpeed);
 		}
 
-		if (Input.GetKeyDown (KeyCode.Space))
+		GetComponentInChildren<Transform>().Rotate (0f, Input.GetAxis ("Mouse X") * Time.deltaTime * 200f, 0f, Space.World);
+		GetComponentInChildren<Transform>().Rotate (-Input.GetAxis ("Mouse Y") * Time.deltaTime * 200f, 0f, 0f, Space.Self);
+
+
+		if (Input.GetKeyDown (KeyCode.Mouse0))
 		{
 			rgbdy.AddForce (Vector3.up * jumpStrength);
 		}

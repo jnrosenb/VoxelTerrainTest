@@ -21,6 +21,7 @@ public class VoxelChunk : MonoBehaviour
 	//Visual aid
 	private LineRenderer[] lineArray;
 	public bool seeBoundingBox = false;
+	public bool seeOuterBounds = false;
 
 	//The 3d array that contains each cell:
 	public GridCell[,,] voxelGrid;
@@ -28,7 +29,7 @@ public class VoxelChunk : MonoBehaviour
 
 
 	// Use this for initialization
-	void Awake () 
+	void postStart (Vector2 position) // Awake()
 	{
 		//For now, I'm choosing to keep the voxels on a 3D array:
 		voxelGrid = new GridCell[voxelRes, voxelRes, voxelRes];
@@ -46,14 +47,12 @@ public class VoxelChunk : MonoBehaviour
 		lineArray = new LineRenderer[cellCount];
 		
 		//Sets the grid with the voxel cells:
-		setVoxelGrid ();
-
-//		Debug.Log ("Grid ready and set!");
+		setVoxelGrid (position);
 	}
 
 
 	//Set the vertices of the chunk. Starting always in origin:
-	private void setVoxelGrid()
+	private void setVoxelGrid(Vector2 position)
 	{
 		for (int i = 0, y = 0; y < voxelRes; y++)
 		{
@@ -62,7 +61,7 @@ public class VoxelChunk : MonoBehaviour
 				for (int x = 0; x < voxelRes; x++, i++)
 				{
 					//NOTE: how we pass the coords here determines how cells are ordered: **
-					voxelGrid[x,y,z] = setVoxelCell (x, y, z);
+					voxelGrid[x,y,z] = setVoxelCell (position, x, y, z);
 				}
 			}
 		}
@@ -70,7 +69,7 @@ public class VoxelChunk : MonoBehaviour
 
 
 	//Sets each gridCell with the corresponding values of each of its vertices:
-	private GridCell setVoxelCell(int x1, int y1, int z1)
+	private GridCell setVoxelCell(Vector2 position, int x1, int y1, int z1)
 	{
 		float x = x1 * voxelWidth;
 		float y = y1 * voxelWidth;
@@ -114,19 +113,19 @@ public class VoxelChunk : MonoBehaviour
 //			((y + voxelWidth) / chunkSize) * (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize), ((z + voxelWidth)/chunkSize)),
 //			((y + voxelWidth) / chunkSize) * (float)SimplexNoise.noise((x/chunkSize), ((y + voxelWidth) / chunkSize), ((z + voxelWidth)/chunkSize))
 
-			(y / chunkSize) + (float)SimplexNoise.noise((x/chunkSize), (y / chunkSize), (z/chunkSize)),
-			(y / chunkSize) + (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), (y / chunkSize), (z/chunkSize)),
-			(y / chunkSize) + (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), (y / chunkSize), ((z + voxelWidth)/chunkSize)),
-			(y / chunkSize) + (float)SimplexNoise.noise((x/chunkSize), (y / chunkSize), ((z + voxelWidth)/chunkSize)),
-			((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise((x/chunkSize), ((y + voxelWidth) / chunkSize), (z/chunkSize)),
-			((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize), (z/chunkSize)),
-			((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize), ((z + voxelWidth)/chunkSize)),
-			((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise((x/chunkSize), ((y + voxelWidth) / chunkSize), ((z + voxelWidth)/chunkSize))
+			(y / chunkSize) + (float)SimplexNoise.noise(position.x + (x/chunkSize), (y / chunkSize), position.y + (z/chunkSize)),
+			(y / chunkSize) + (float)SimplexNoise.noise(position.x + ((x + voxelWidth)/chunkSize), (y / chunkSize), position.y + (z/chunkSize)),
+			(y / chunkSize) + (float)SimplexNoise.noise(position.x + ((x + voxelWidth)/chunkSize), (y / chunkSize), position.y + ((z + voxelWidth)/chunkSize)),
+			(y / chunkSize) + (float)SimplexNoise.noise(position.x + (x/chunkSize), (y / chunkSize), position.y + ((z + voxelWidth)/chunkSize)),
+			((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(position.x + (x/chunkSize), ((y + voxelWidth) / chunkSize),  position.y + (z/chunkSize)),
+			((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(position.x + ((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize),  position.y + (z/chunkSize)),
+			((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(position.x + ((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize),  position.y + ((z + voxelWidth)/chunkSize)),
+			((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(position.x + (x/chunkSize), ((y + voxelWidth) / chunkSize),  position.y + ((z + voxelWidth)/chunkSize))
 		};	
 		//*/
 
 
-		/* Constant value, changing vertices:
+		/* Using a 2d scalar field:
 		float[] values = new float[] 
 		{
 			(y / chunkSize) * Mathf.PerlinNoise((x/chunkSize), (z/chunkSize)),

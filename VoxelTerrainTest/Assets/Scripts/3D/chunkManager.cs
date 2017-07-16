@@ -27,7 +27,7 @@ public class chunkManager : MonoBehaviour
 		this.mc = GetComponent<MeshCollider> ();
 		this.chunk = GetComponent<VoxelChunk> ();
 
-		mr.material = new Material (Shader.Find("Diffuse"));
+		mr.material = new Material (Shader.Find("Standard"));
 		mr.material.color = Color.white;
 
 		//Represents the offset to add to the vertices index to represent their real index:
