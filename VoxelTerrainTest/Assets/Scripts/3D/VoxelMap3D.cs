@@ -7,41 +7,44 @@ public class VoxelMap3D : MonoBehaviour
 	//Template
 	public GameObject chunkTemplate;
 
-	//Map width and height in term of chunks:
-	public int zres = 5;
-	public int xres = 5;
+	//Useful public variables:
+	public float isovalue = 0f;
+	public float radius = 4f;
 
 	//Temporary size for each chunk:
 	public float chunkSize = 50f;
-	private float xSize;
-	private float zSize;
 
-	//private Dictionary<Vector2, VoxelChunk> chunkDic;
+	private Dictionary<Vector2, VoxelChunk> chunkDic;
 
 
 	// Use this for initialization
 	void Start () 
 	{
-		//chunkDic = new Dictionary<Vector2, VoxelChunk> ();
+		chunkDic = new Dictionary<Vector2, VoxelChunk> ();
 
-		xSize = xres * chunkSize;
-		zSize = zres * chunkSize;
-
-		for (int i = 0; i < zres; i++)
+		//Circular like world, starting in the center outwards:
+		float amount = (2 * radius + 1);
+		for (int i = 0; i < amount; i++)
 		{
-			for (int j = 0; j < xres; j++)
+			for (int j = 0; j < amount; j++)
 			{
-				GameObject chunk = Instantiate (chunkTemplate);
-				chunk.SendMessage ("postStart", new Vector2(i, j));
+				Vector2 chunkDictCoords = new Vector2 (i - radius, j - radius);
 
-				chunk.GetComponent<VoxelChunk> ().chunkSize = chunkSize; //This doesn't work since it might be called after awake-
-				chunk.transform.SetParent (transform);
+				if (Vector2.Distance (chunkDictCoords, Vector2.zero) <= radius)
+				{
+					GameObject chunk = Instantiate (chunkTemplate);
+					chunk.SendMessage ("postStart", new Vector2(i - radius, j - radius));
 
-				chunk.transform.localPosition = new Vector3 (i * chunkSize, 0f,  j * chunkSize);
+					chunk.GetComponent<VoxelChunk> ().chunkSize = chunkSize; //This could not work since it might be called after awake-
+					chunk.transform.SetParent (transform);
+
+					//Here we position the chunk relative to their coord in the chunk 2d grid:
+					chunk.transform.localPosition = new Vector3 ((i - radius) * chunkSize, 0f,  (j - radius) * chunkSize);
+
+					chunkDic.Add (chunkDictCoords, chunk.GetComponent<VoxelChunk> ());
+				}
 			}
 		}
-
-		transform.Translate (new Vector3(-xSize/2f, 0f, -zSize/2f));
 	}
 	
 	// Update is called once per frame

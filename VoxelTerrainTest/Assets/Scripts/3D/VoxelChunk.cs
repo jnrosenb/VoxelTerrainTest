@@ -81,14 +81,16 @@ public class VoxelChunk : MonoBehaviour
 
 		//First, we have to set every one of the vertices and their value: (CHECK VALUES)
 		Vector3[] vertices = new Vector3[] {
-			new Vector3 (x, y, z),
-			new Vector3 (x + voxelWidth, y, z),
-			new Vector3 (x + voxelWidth, y, z + voxelWidth),
-			new Vector3 (x, y, z + voxelWidth),
-			new Vector3 (x, y + voxelWidth, z),
-			new Vector3 (x + voxelWidth, y + voxelWidth, z),
-			new Vector3 (x + voxelWidth, y + voxelWidth, z + voxelWidth),
-			new Vector3 (x, y + voxelWidth, z + voxelWidth)
+
+			//The (-chunkSize/2f) term is there so that the mesh has its pivot in the center of the chunk (with y = 0).
+			new Vector3 (x - chunkSize/2f, y, z - chunkSize/2f),
+			new Vector3 (x - chunkSize/2f + voxelWidth, y, z - chunkSize/2f),
+			new Vector3 (x - chunkSize/2f + voxelWidth, y, z - chunkSize/2f + voxelWidth),
+			new Vector3 (x - chunkSize/2f, y, z - chunkSize/2f + voxelWidth),
+			new Vector3 (x - chunkSize/2f, y + voxelWidth, z - chunkSize/2f),
+			new Vector3 (x - chunkSize/2f + voxelWidth, y + voxelWidth, z - chunkSize/2f),
+			new Vector3 (x - chunkSize/2f + voxelWidth, y + voxelWidth, z - chunkSize/2f + voxelWidth),
+			new Vector3 (x - chunkSize/2f, y + voxelWidth, z - chunkSize/2f + voxelWidth)
 		};
 
 

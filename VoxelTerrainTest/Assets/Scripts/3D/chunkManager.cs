@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
@@ -16,6 +17,7 @@ public class chunkManager : MonoBehaviour
 	private VoxelChunk chunk;
 
 	private List<Vector3> vertices = new List<Vector3> ();
+	private List<Vector2> uvs = new List<Vector2> ();
 	private List<int> triangles = new List<int> ();
 
 
@@ -27,8 +29,8 @@ public class chunkManager : MonoBehaviour
 		this.mc = GetComponent<MeshCollider> ();
 		this.chunk = GetComponent<VoxelChunk> ();
 
-		mr.material = new Material (Shader.Find("Standard"));
-		mr.material.color = Color.white;
+		//mr.material = new Material (Shader.Find("Standard"));
+		//mr.material.color = Color.white;
 
 		//Represents the offset to add to the vertices index to represent their real index:
 		int offset = 0;
@@ -41,6 +43,7 @@ public class chunkManager : MonoBehaviour
 				for (int x = 0; x < chunk.voxelRes; x++)
 				{
 					GridCell cell = chunk.voxelGrid [x, y, z];
+
 					Triangle[] triArray = new Triangle[] 
 					{
 						new Triangle(new Vector3[3]),
@@ -51,7 +54,7 @@ public class chunkManager : MonoBehaviour
 					};
 
 					//isovalue = Mathf.PerlinNoise ((x * chunk.voxelWidth / chunk.chunkSize), (z * chunk.voxelWidth / chunk.chunkSize));
-					MarchingCubes.Polygonise (cell, isovalue, chunk.halfInterpolation, ref triArray, ref vertices, ref triangles, ref offset);// ***EXPERIMENT*** 
+					MarchingCubes.Polygonise (cell, isovalue, chunk.halfInterpolation, ref triArray, ref vertices, ref uvs, ref triangles, ref offset);// ***EXPERIMENT*** 
 
 				}
 			}
@@ -63,6 +66,7 @@ public class chunkManager : MonoBehaviour
 
 		mf.mesh.SetVertices (vertices);
 		mf.mesh.SetTriangles (triangles, 0);
+		mf.mesh.SetUVs (0, uvs);
 
 		mc.sharedMesh = null;
 		mc.sharedMesh = mf.mesh;
