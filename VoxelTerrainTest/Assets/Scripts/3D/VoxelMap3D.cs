@@ -10,9 +10,8 @@ public class VoxelMap3D : MonoBehaviour
 	//Useful public variables:
 	public float isovalue = 0f;
 	public float radius = 4f;
-
-	//Temporary size for each chunk:
-	public float chunkSize = 50f;
+	public float chunkSize = 100f;
+	public int chunkVoxelRes = 30;
 
 	private Dictionary<Vector2, VoxelChunk> chunkDic;
 
@@ -33,9 +32,11 @@ public class VoxelMap3D : MonoBehaviour
 				if (Vector2.Distance (chunkDictCoords, Vector2.zero) <= radius)
 				{
 					GameObject chunk = Instantiate (chunkTemplate);
-					chunk.SendMessage ("postStart", new Vector2(i - radius, j - radius));
 
-					chunk.GetComponent<VoxelChunk> ().chunkSize = chunkSize; //This could not work since it might be called after awake-
+					//Sends the following: first, the coords in the spherical 2d grid. 
+					//then, the chunk's width. Finally, the voxelRes in each chunk:
+					chunk.SendMessage ("postStart", new Vector4(i - radius, j - radius, chunkSize, chunkVoxelRes));
+
 					chunk.transform.SetParent (transform);
 
 					//Here we position the chunk relative to their coord in the chunk 2d grid:
@@ -46,10 +47,5 @@ public class VoxelMap3D : MonoBehaviour
 			}
 		}
 	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		
-	}
+
 }

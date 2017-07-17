@@ -6,9 +6,10 @@ using UnityEngine;
 public class VoxelChunk : MonoBehaviour 
 {
 	//Size of the chunk in unity units:
-	public float chunkSize = 5f;
+	private float chunkSize;
 	//number of voxels in each axis. For now, it will always be equal for all 3 axis:
-	public int voxelRes = 5;
+	private int voxelRes;
+	public int VoxelRes{ get{ return voxelRes; } }
 	//This represents the distance from one voxel cell to the next:
 	public float voxelWidth;
 
@@ -29,8 +30,12 @@ public class VoxelChunk : MonoBehaviour
 
 
 	// Use this for initialization
-	void postStart (Vector2 position) // Awake()
+	void postStart (Vector4 args) // Awake()
 	{
+		//Unpacking data from the vector4:
+		chunkSize = args.z;
+		voxelRes = (int)args.w;
+
 		//For now, I'm choosing to keep the voxels on a 3D array:
 		voxelGrid = new GridCell[voxelRes, voxelRes, voxelRes];
 
@@ -47,7 +52,7 @@ public class VoxelChunk : MonoBehaviour
 		lineArray = new LineRenderer[cellCount];
 		
 		//Sets the grid with the voxel cells:
-		setVoxelGrid (position);
+		setVoxelGrid (new Vector2(args.x, args.y));
 	}
 
 
@@ -124,14 +129,14 @@ public class VoxelChunk : MonoBehaviour
 //			((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(position.x + ((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize),  position.y + ((z + voxelWidth)/chunkSize)),
 //			((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(position.x + (x/chunkSize), ((y + voxelWidth) / chunkSize),  position.y + ((z + voxelWidth)/chunkSize))
 
-			2*(y / chunkSize) + (float)SimplexNoise.noise(position.x + (x/chunkSize), (y / chunkSize), position.y + (z/chunkSize)),
-			2*(y / chunkSize) + (float)SimplexNoise.noise(position.x + ((x + voxelWidth)/chunkSize), (y / chunkSize), position.y + (z/chunkSize)),
-			2*(y / chunkSize) + (float)SimplexNoise.noise(position.x + ((x + voxelWidth)/chunkSize), (y / chunkSize), position.y + ((z + voxelWidth)/chunkSize)),
-			2*(y / chunkSize) + (float)SimplexNoise.noise(position.x + (x/chunkSize), (y / chunkSize), position.y + ((z + voxelWidth)/chunkSize)),
-			2*((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(position.x + (x/chunkSize), ((y + voxelWidth) / chunkSize),  position.y + (z/chunkSize)),
-			2*((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(position.x + ((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize),  position.y + (z/chunkSize)),
-			2*((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(position.x + ((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize),  position.y + ((z + voxelWidth)/chunkSize)),
-			2*((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(position.x + (x/chunkSize), ((y + voxelWidth) / chunkSize),  position.y + ((z + voxelWidth)/chunkSize))
+			2*(y / chunkSize) + (float)SimplexNoise.noise(position.x + (x/chunkSize), (y / chunkSize), position.y + (z/chunkSize)) - 0.6f,
+			2*(y  / chunkSize) + (float)SimplexNoise.noise(position.x + ((x + voxelWidth)/chunkSize), (y / chunkSize), position.y + (z/chunkSize))- 0.6f,
+			2*(y  / chunkSize) + (float)SimplexNoise.noise(position.x + ((x + voxelWidth)/chunkSize), (y / chunkSize), position.y + ((z + voxelWidth)/chunkSize))- 0.6f,
+			2*(y  / chunkSize) + (float)SimplexNoise.noise(position.x + (x/chunkSize), (y / chunkSize), position.y + ((z + voxelWidth)/chunkSize))- 0.6f,
+			2*((y  + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(position.x + (x/chunkSize), ((y + voxelWidth) / chunkSize),  position.y + (z/chunkSize))- 0.6f,
+			2*((y  + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(position.x + ((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize),  position.y + (z/chunkSize)) - 0.6f,
+			2*((y  + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(position.x + ((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize),  position.y + ((z + voxelWidth)/chunkSize)) - 0.6f,
+			2*((y  + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(position.x + (x/chunkSize), ((y + voxelWidth) / chunkSize),  position.y + ((z + voxelWidth)/chunkSize)) - 0.6f
 		};	
 		//*/
 

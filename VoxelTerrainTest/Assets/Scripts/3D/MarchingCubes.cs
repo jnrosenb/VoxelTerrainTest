@@ -124,6 +124,15 @@ public static class MarchingCubes
 			triangles.Add (indexMapper[triTable[cubeindex, i + 2]] + vertexOffset); // ***EXPERIMENT***
 		}
 
+//		//Uv experiment:
+//		for (int i = 0; i < vertlist.Length; i++)
+//		{
+//			if (vertlist [i] != -Vector3.one)
+//			{
+//				uvs.Add (new Vector2(i / 100, i / 100));
+//			}
+//		}
+
 
 		vertexOffset += offsetAdd;// ***EXPERIMENT***
 		return ntriang;
@@ -139,41 +148,38 @@ public static class MarchingCubes
 		offsetAdd++; // ***EXPERIMENT***
 
 		// If the isolevel is too close to one of the vertices or the vertices are almost together.
-		if (Mathf.Abs (isolevel - valp1) < 0.0001f)
+		if (Mathf.Abs (isolevel - valp1) < 0.0000001f)//0.0001f)
 		{
 			vertices.Add (p1);// ***EXPERIMENT***
 
-			//UVS---
-			Vector2 uv1 = new Vector2(p1.y / 100, p1.z / 100);
-			//Vector2 uv1 = new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f));
-			uvs.Add (uv1);
-			//UVS---
+//			//UVS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**
+//			Vector2 uv1 = new Vector2(p1.y / 200, p1.z / 200);
+//			uvs.Add (uv1);
+//			//UVS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**
 
 
 			return p1;
 		}
-		if (Mathf.Abs (isolevel - valp2) < 0.0001f)
+		if (Mathf.Abs (isolevel - valp2) < 0.0000001f)//0.0001f)
 		{
 			vertices.Add (p2);// ***EXPERIMENT***
 
-			//UVS---
-			Vector2 uv1 = new Vector2(p2.y / 100, p2.z / 100);
-			//Vector2 uv1 = new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f));
-			uvs.Add (uv1);
-			//UVS---
+//			//UVS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**
+//			Vector2 uv1 = new Vector2(p2.y / 200, p2.z / 200);
+//			uvs.Add (uv1);
+//			//UVS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**
 
 
 			return p2;
 		}
-		if (Mathf.Abs (valp1 - valp2) < 0.0001f)
+		if (Mathf.Abs (valp1 - valp2) < 0.0000001f)//0.0001f)
 		{
 			vertices.Add (p1);// ***EXPERIMENT***
 
-			//UVS---
-			Vector2 uv1 = new Vector2(p1.y / 100, p1.z / 100);
-			//Vector2 uv1 = new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f));
-			uvs.Add (uv1);
-			//UVS---
+//			//UVS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**
+//			Vector2 uv1 = new Vector2(p1.y / 200, p1.z / 200);
+//			uvs.Add (uv1);
+//			//UVS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**
 
 			return p1;
 		}
@@ -186,11 +192,10 @@ public static class MarchingCubes
 		p.y = p1.y + mu * (p2.y - p1.y);
 		p.z = p1.z + mu * (p2.z - p1.z);
 
-		//UVS---
-		Vector2 uv = new Vector2(p.y / 100, p.z / 100);
-		//Vector2 uv = new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f));
-		uvs.Add (uv);
-		//UVS---
+//		//UVS----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**
+//		Vector2 uv = new Vector2(p.y / 200, p.z / 200);
+//		uvs.Add (uv);
+//		//UVS----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**
 
 		vertices.Add (p);// ***EXPERIMENT***
 		return p;

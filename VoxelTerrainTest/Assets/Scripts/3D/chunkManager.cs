@@ -29,18 +29,15 @@ public class chunkManager : MonoBehaviour
 		this.mc = GetComponent<MeshCollider> ();
 		this.chunk = GetComponent<VoxelChunk> ();
 
-		//mr.material = new Material (Shader.Find("Standard"));
-		//mr.material.color = Color.white;
-
 		//Represents the offset to add to the vertices index to represent their real index:
 		int offset = 0;
 
 		//EXPERIMENT TO SEE WETHER THE VOXEL TO POLYGON WORKS:
-		for (int y = 0; y < chunk.voxelRes; y++)
+		for (int y = 0; y < chunk.VoxelRes; y++)
 		{
-			for (int z = 0; z < chunk.voxelRes; z++)
+			for (int z = 0; z < chunk.VoxelRes; z++)
 			{
-				for (int x = 0; x < chunk.voxelRes; x++)
+				for (int x = 0; x < chunk.VoxelRes; x++)
 				{
 					GridCell cell = chunk.voxelGrid [x, y, z];
 
@@ -53,9 +50,7 @@ public class chunkManager : MonoBehaviour
 						new Triangle(new Vector3[3])		
 					};
 
-					//isovalue = Mathf.PerlinNoise ((x * chunk.voxelWidth / chunk.chunkSize), (z * chunk.voxelWidth / chunk.chunkSize));
 					MarchingCubes.Polygonise (cell, isovalue, chunk.halfInterpolation, ref triArray, ref vertices, ref uvs, ref triangles, ref offset);// ***EXPERIMENT*** 
-
 				}
 			}
 		}
@@ -71,6 +66,7 @@ public class chunkManager : MonoBehaviour
 		mc.sharedMesh = null;
 		mc.sharedMesh = mf.mesh;
 		//missing the normals***
+		mf.mesh.RecalculateNormals();
 		//Missing the uvs***
 	}
 }

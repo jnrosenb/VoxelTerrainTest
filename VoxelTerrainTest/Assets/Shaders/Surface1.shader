@@ -53,8 +53,8 @@ Shader "Custom/Surface1"
 				//Fragment shader:
 				float4 frag(v2f IN) : COLOR 
 				{
-					half4 colorA = tex2D (_MainTex1, IN.uvs_Tex);
-					half4 colorB = tex2D (_MainTex2, IN.uvs_Tex);
+					half4 colorA = half4(0, 1, 0, 1); //tex2D (_MainTex1, IN.uvs_Tex);
+					half4 colorB = half4(1, 0, 0, 1); //tex2D (_MainTex2, IN.uvs_Tex);
 
 					float x = dot(IN.normals, float3(0,1,0)); 
 					x = (x + 1) * 0.5;
