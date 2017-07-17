@@ -112,10 +112,10 @@ public static class MarchingCubes
 		ntriang = 0;
 		for (int i = 0; triTable[cubeindex, i] != -1; i += 3) 
 		{
-			triangleArray[ntriang].p[0] = vertlist[triTable[cubeindex, i + 0]];
-			triangleArray[ntriang].p[1] = vertlist[triTable[cubeindex, i + 1]];
-			triangleArray[ntriang].p[2] = vertlist[triTable[cubeindex, i + 2]];
-			ntriang++;
+			//triangleArray[ntriang].p[0] = vertlist[triTable[cubeindex, i + 0]];
+			//triangleArray[ntriang].p[1] = vertlist[triTable[cubeindex, i + 1]];
+			//triangleArray[ntriang].p[2] = vertlist[triTable[cubeindex, i + 2]];
+			//ntriang++;
 
 			//Adds the vertices indices to the triangles list. 
 			//Indices must be corrected by offset!
@@ -123,16 +123,6 @@ public static class MarchingCubes
 			triangles.Add (indexMapper[triTable[cubeindex, i + 1]] + vertexOffset); // ***EXPERIMENT***
 			triangles.Add (indexMapper[triTable[cubeindex, i + 2]] + vertexOffset); // ***EXPERIMENT***
 		}
-
-//		//Uv experiment:
-//		for (int i = 0; i < vertlist.Length; i++)
-//		{
-//			if (vertlist [i] != -Vector3.one)
-//			{
-//				uvs.Add (new Vector2(i / 100, i / 100));
-//			}
-//		}
-
 
 		vertexOffset += offsetAdd;// ***EXPERIMENT***
 		return ntriang;
@@ -145,57 +135,30 @@ public static class MarchingCubes
 	{
 		float mu;
 		Vector3 p;
-		offsetAdd++; // ***EXPERIMENT***
+		offsetAdd++;
 
 		// If the isolevel is too close to one of the vertices or the vertices are almost together.
-		if (Mathf.Abs (isolevel - valp1) < 0.0000001f)//0.0001f)
+		if (Mathf.Abs (isolevel - valp1) < 0.000001f)//0.0001f)
 		{
-			vertices.Add (p1);// ***EXPERIMENT***
-
-//			//UVS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**
-//			Vector2 uv1 = new Vector2(p1.y / 200, p1.z / 200);
-//			uvs.Add (uv1);
-//			//UVS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**
-
-
+			vertices.Add (p1);
 			return p1;
 		}
-		if (Mathf.Abs (isolevel - valp2) < 0.0000001f)//0.0001f)
+		if (Mathf.Abs (isolevel - valp2) < 0.000001f)//0.0001f)
 		{
-			vertices.Add (p2);// ***EXPERIMENT***
-
-//			//UVS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**
-//			Vector2 uv1 = new Vector2(p2.y / 200, p2.z / 200);
-//			uvs.Add (uv1);
-//			//UVS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**
-
-
+			vertices.Add (p2);
 			return p2;
 		}
-		if (Mathf.Abs (valp1 - valp2) < 0.0000001f)//0.0001f)
+		if (Mathf.Abs (valp1 - valp2) < 0.000001f)//0.0001f)
 		{
-			vertices.Add (p1);// ***EXPERIMENT***
-
-//			//UVS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**
-//			Vector2 uv1 = new Vector2(p1.y / 200, p1.z / 200);
-//			uvs.Add (uv1);
-//			//UVS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**
-
+			vertices.Add (p1);
 			return p1;
 		}
 
 		// Otherwise, interpolate:
 		mu = halfInter ? 0.5f : (isolevel - valp1) / (valp2 - valp1);
-		//mu = (isolevel - valp1) / (valp2 - valp1);
-		//mu = 0.5f;
 		p.x = p1.x + mu * (p2.x - p1.x);
 		p.y = p1.y + mu * (p2.y - p1.y);
 		p.z = p1.z + mu * (p2.z - p1.z);
-
-//		//UVS----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**
-//		Vector2 uv = new Vector2(p.y / 200, p.z / 200);
-//		uvs.Add (uv);
-//		//UVS----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**
 
 		vertices.Add (p);// ***EXPERIMENT***
 		return p;

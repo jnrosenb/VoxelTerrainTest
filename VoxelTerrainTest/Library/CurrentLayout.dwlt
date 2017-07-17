@@ -97,7 +97,7 @@ MonoBehaviour:
   m_MinSize: {x: 332, y: 271}
   m_MaxSize: {x: 14002, y: 10021}
   vertical: 0
-  controlID: 124
+  controlID: 52
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_MinSize: {x: 679, y: 492}
   m_MaxSize: {x: 18002, y: 14042}
   vertical: 1
-  controlID: 47
+  controlID: 49
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_MinSize: {x: 679, y: 492}
   m_MaxSize: {x: 18002, y: 14042}
   vertical: 0
-  controlID: 48
+  controlID: 50
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -259,7 +259,7 @@ MonoBehaviour:
   m_MinSize: {x: 404, y: 492}
   m_MaxSize: {x: 14002, y: 14042}
   vertical: 1
-  controlID: 49
+  controlID: 51
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -283,7 +283,7 @@ MonoBehaviour:
   m_MinSize: {x: 404, y: 221}
   m_MaxSize: {x: 8004, y: 4021}
   vertical: 0
-  controlID: 50
+  controlID: 149
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -611,9 +611,9 @@ MonoBehaviour:
     height: 432
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: a6250000
-    m_LastClickedID: 9638
-    m_ExpandedIDs: e2fbffff00000000a0250000
+    m_SelectedIDs: a8250000
+    m_LastClickedID: 9640
+    m_ExpandedIDs: e2fbffff00000000a8250000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -668,9 +668,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -16.32493, y: -0.000015258789, z: 18.579483}
+    m_Target: {x: 9.431077, y: 33.44409, z: -10.207968}
     speed: 2
-    m_Value: {x: -16.32493, y: -0.000015258789, z: 18.579483}
+    m_Value: {x: 9.431077, y: 33.44409, z: -10.207968}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -693,13 +693,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: 0.23386748, y: -0.7343193, z: 0.30779546, w: 0.5580025}
+    m_Target: {x: -0.0907395, y: 0.8749119, z: -0.18048565, w: -0.44028667}
     speed: 2
-    m_Value: {x: 0.23386472, y: -0.7343107, z: 0.30779183, w: 0.5579959}
+    m_Value: {x: -0.09073352, y: 0.8748542, z: -0.18047376, w: -0.44025764}
   m_Size:
-    m_Target: 447.02606
+    m_Target: 269.28482
     speed: 2
-    m_Value: 447.02606
+    m_Value: 269.28482
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -790,19 +790,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Prefabs/3D
+    - Assets/Materials
   m_ViewMode: 1
   m_StartGridSize: 51
   m_LastFolders:
-  - Assets/Prefabs/3D
+  - Assets/Materials
   m_LastFoldersGridSize: 51
   m_LastProjectPath: C:\Users\Jose\Desktop\VoxelTerrainTest\VoxelTerrainTest
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 52}
-    m_SelectedIDs: 38250000
-    m_LastClickedID: 9528
-    m_ExpandedIDs: 00000000ce240000f62400002825000000ca9a3bffffff7f
+    m_SelectedIDs: 04250000
+    m_LastClickedID: 9476
+    m_ExpandedIDs: 00000000d2240000fa2400002c25000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -830,7 +830,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000ce240000f624000028250000
+    m_ExpandedIDs: 00000000d2240000fa2400002c250000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
