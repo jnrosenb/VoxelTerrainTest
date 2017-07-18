@@ -44,9 +44,9 @@ public class chunkManager : MonoBehaviour
 			}
 		}
 
-		Debug.Log ("Vertices has: " + vertices.Count + " elements.");
-		Debug.Log ("Triangles has: " + (triangles.Count / 3f) + " polygons.");
-		Debug.Log ("Now preparing to draw!");
+		//Debug.Log ("Vertices has: " + vertices.Count + " elements.");
+		//Debug.Log ("Triangles has: " + (triangles.Count / 3f) + " polygons.");
+		//Debug.Log ("Now preparing to draw!");
 
 		//Mesh configuration:
 		mf.mesh.SetVertices (vertices);

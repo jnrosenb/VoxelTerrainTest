@@ -34,7 +34,7 @@ public class VoxelChunk : MonoBehaviour
 
 
 	// ARGS: [0]: starting pos offset, [1]: chunkSize, [2]: VoxelRes, [3]: Isovalue, [4]: halfInterpolation, [5]: voxelWidth.
-	void postStart (List<System.Object> args) // Awake()
+	public void postStart (List<System.Object> args) // Awake()
 	{
 		//Unpacking data from the args:
 		Vector2 startingPositionOffset = (Vector2)args[0];
@@ -104,14 +104,14 @@ public class VoxelChunk : MonoBehaviour
 		//* 3D Noise terrains:
 		float[] values = new float[] 
 		{
-			//(float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, (y / chunkSize.x)					, position.y + (z/chunkSize.z)) ,
-			//(float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), (y / chunkSize.x)					, position.y + (z/chunkSize.z)),
-			//(float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), (y / chunkSize.x)					, position.y + ((z + voxelWidth)/chunkSize.z)),
-			//(float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, (y / chunkSize.x)					, position.y + ((z + voxelWidth)/chunkSize.z)),
-			//(float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, ((y + voxelWidth) / chunkSize.x)	, position.y + (z/chunkSize.z)),
-			//(float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), ((y + voxelWidth) / chunkSize.x)	, position.y + (z/chunkSize.z)),
-			//(float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), ((y + voxelWidth) / chunkSize.x)	, position.y + ((z + voxelWidth)/chunkSize.z)),
-			//(float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, ((y + voxelWidth) / chunkSize.x)	, position.y + ((z + voxelWidth)/chunkSize.z))
+//			(float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, (y / chunkSize.x)					, position.y + (z/chunkSize.z)) ,
+//			(float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), (y / chunkSize.x)					, position.y + (z/chunkSize.z)),
+//			(float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), (y / chunkSize.x)					, position.y + ((z + voxelWidth)/chunkSize.z)),
+//			(float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, (y / chunkSize.x)					, position.y + ((z + voxelWidth)/chunkSize.z)),
+//			(float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, ((y + voxelWidth) / chunkSize.x)	, position.y + (z/chunkSize.z)),
+//			(float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), ((y + voxelWidth) / chunkSize.x)	, position.y + (z/chunkSize.z)),
+//			(float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), ((y + voxelWidth) / chunkSize.x)	, position.y + ((z + voxelWidth)/chunkSize.z)),
+//			(float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, ((y + voxelWidth) / chunkSize.x)	, position.y + ((z + voxelWidth)/chunkSize.z))
 
 			//(y / chunkSize) * (float)SimplexNoise.noise(position.x + (x/chunkSize), (y / chunkSize), position.y + (z/chunkSize)),
 			//(y / chunkSize) * (float)SimplexNoise.noise(position.x + ((x + voxelWidth)/chunkSize), (y / chunkSize), position.y + (z/chunkSize)),

@@ -5,8 +5,10 @@ using System;
 
 public class VoxelMap3D : MonoBehaviour 
 {
-	//Template
+	//Template and player vars:
 	public GameObject chunkTemplate;
+	public GameObject player;
+	private Vector2 playerPrevPos;
 
 	//Useful public variables:
 	public float radius = 4f;
@@ -18,6 +20,7 @@ public class VoxelMap3D : MonoBehaviour
 	public float isovalue = 0f;
 	public bool halfInterpolation = false;
 
+	//Hashing table that will contain the chunks:
 	private Dictionary<Vector2, VoxelChunk> chunkDic;
 
 
@@ -25,6 +28,7 @@ public class VoxelMap3D : MonoBehaviour
 	void Start () 
 	{
 		chunkDic = new Dictionary<Vector2, VoxelChunk> ();
+		playerPrevPos = Vector2.zero;
 
 		chunkSize.x = chunkVoxelRes.x * voxelSize;
 		chunkSize.y = chunkVoxelRes.y * voxelSize;
@@ -51,5 +55,50 @@ public class VoxelMap3D : MonoBehaviour
 			}
 		}
 	}
+
+
+	//Update will be called every frame:
+	void Update()
+	{
+		Vector2 playerGridPos = new Vector2 ((int)((player.transform.position.x)/(chunkSize.x/2f)), (int)((player.transform.position.z)/(chunkSize.z/2f)));
+
+		if (playerGridPos.x != playerPrevPos.x || playerGridPos.y != playerPrevPos.y)
+		{
+			//Circular like world, starting in the center outwards:
+			float amount = (2 * radius + 1);
+			for (int i = 0; i < amount; i++)
+			{
+				for (int j = 0; j < amount; j++)
+				{
+					Vector2 chunkDictCoords = new Vector2 (playerGridPos.x + i - radius, playerGridPos.y + j - radius);
+					if (Vector2.Distance (chunkDictCoords, playerGridPos) <= radius)
+					{
+						if (!chunkDic.ContainsKey (chunkDictCoords))
+						{
+							GameObject chunk = Instantiate (chunkTemplate);
+
+							//chunk.SendMessage ("postStart", new List<System.Object> () {chunkDictCoords, chunkSize, chunkVoxelRes, isovalue, halfInterpolation, voxelSize});
+							chunk.GetComponent<VoxelChunk> ().postStart (new List<System.Object> () {
+								chunkDictCoords,
+								chunkSize,
+								chunkVoxelRes,
+								isovalue,
+								halfInterpolation,
+								voxelSize
+							});
+
+							chunk.transform.SetParent (transform);
+
+							chunk.transform.localPosition = new Vector3 ((playerGridPos.x + i - radius) * chunkSize.x, 0f, (playerGridPos.y + j - radius) * chunkSize.z);
+							chunkDic.Add (chunkDictCoords, chunk.GetComponent<VoxelChunk> ());
+						}
+
+					}
+				}
+			}
+		}
+
+		playerPrevPos = playerGridPos;
+	}//End-of-Update-method--
 
 }

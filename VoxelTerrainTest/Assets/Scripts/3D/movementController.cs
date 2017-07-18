@@ -8,16 +8,22 @@ public class MovementController : MonoBehaviour
 	public float movementSpeed = 5f;
 	public float rotateSpeed = 3f;
 
+	public Vector3 gridPosition;
+
 	private Rigidbody rgbdy;
+
 
 	// Use this for initialization
 	void Start () 
 	{
 		rgbdy = GetComponent<Rigidbody> ();		
+
+		gridPosition = Vector3.zero;
 	}
+
 	
 	// Update is called once per frame
-	void Update () 
+	void FixedUpdate () 
 	{
 		if (Input.GetKey (KeyCode.W))
 		{
