@@ -9,3 +9,12 @@ For the 3d terrains I'm using 3d simplex noise, a c# implementation based on ste
 (http://staffwww.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf)
 
 Right now, you can play with the voxelMap prefab and choose a radius (which will determine how many chunks of terrain it creates), the isovalue, and the size of each chunk in x axis, y axis and z axis.
+
+
+![alt text](http://i.imgur.com/bOBKCCT.png)
+
+
+![alt text](http://i.imgur.com/XNx8IhH.png)
+
+
+![alt text](http://i.imgur.com/1ECfdFa.png)
