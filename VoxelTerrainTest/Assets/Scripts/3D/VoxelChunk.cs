@@ -131,14 +131,23 @@ public class VoxelChunk : MonoBehaviour
 			//((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(position.x + ((x + voxelWidth)/chunkSize), ((y + voxelWidth) / chunkSize),  position.y + ((z + voxelWidth)/chunkSize)),
 			//((y + voxelWidth) / chunkSize) + (float)SimplexNoise.noise(position.x + (x/chunkSize), ((y + voxelWidth) / chunkSize),  position.y + ((z + voxelWidth)/chunkSize))
 		
-			8*(y  / chunkSize.y) 				+ (float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, (y / chunkSize.y)					, position.y + (z/chunkSize.z)) 				- 0.6f,
-			8*(y  / chunkSize.y) 				+ (float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), (y / chunkSize.y)					, position.y + (z/chunkSize.z))					- 0.6f,
-			8*(y  / chunkSize.y) 				+ (float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), (y / chunkSize.y)					, position.y + ((z + voxelWidth)/chunkSize.z))	- 0.6f,
-			8*(y  / chunkSize.y) 				+ (float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, (y / chunkSize.y)					, position.y + ((z + voxelWidth)/chunkSize.z))	- 0.6f,
-			8*((y  + voxelWidth) / chunkSize.y) + (float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, ((y + voxelWidth) / chunkSize.y)	, position.y + (z/chunkSize.z))					- 0.6f,
-			8*((y  + voxelWidth) / chunkSize.y) + (float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), ((y + voxelWidth) / chunkSize.y)	, position.y + (z/chunkSize.z)) 				- 0.6f,
-			8*((y  + voxelWidth) / chunkSize.y) + (float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), ((y + voxelWidth) / chunkSize.y)	, position.y + ((z + voxelWidth)/chunkSize.z)) 	- 0.6f,
-			8*((y  + voxelWidth) / chunkSize.y) + (float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, ((y + voxelWidth) / chunkSize.y)	, position.y + ((z + voxelWidth)/chunkSize.z)) 	- 0.6f
+			//8*(y  / chunkSize.y) 				+ (float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, (y / chunkSize.y)					, position.y + (z/chunkSize.z)) 				- 0.6f,
+			//8*(y  / chunkSize.y) 				+ (float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), (y / chunkSize.y)					, position.y + (z/chunkSize.z))					- 0.6f,
+			//8*(y  / chunkSize.y) 				+ (float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), (y / chunkSize.y)					, position.y + ((z + voxelWidth)/chunkSize.z))	- 0.6f,
+			//8*(y  / chunkSize.y) 				+ (float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, (y / chunkSize.y)					, position.y + ((z + voxelWidth)/chunkSize.z))	- 0.6f,
+			//8*((y  + voxelWidth) / chunkSize.y) + (float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, ((y + voxelWidth) / chunkSize.y)	, position.y + (z/chunkSize.z))					- 0.6f,
+			//8*((y  + voxelWidth) / chunkSize.y) + (float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), ((y + voxelWidth) / chunkSize.y)	, position.y + (z/chunkSize.z)) 				- 0.6f,
+			//8*((y  + voxelWidth) / chunkSize.y) + (float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), ((y + voxelWidth) / chunkSize.y)	, position.y + ((z + voxelWidth)/chunkSize.z)) 	- 0.6f,
+			//8*((y  + voxelWidth) / chunkSize.y) + (float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, ((y + voxelWidth) / chunkSize.y)	, position.y + ((z + voxelWidth)/chunkSize.z)) 	- 0.6f
+
+			2f*(y  / chunkSize.y) 				+ (float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, (y / chunkSize.y)					, position.y + (z/chunkSize.z)),
+			2f*(y  / chunkSize.y) 				+ (float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), (y / chunkSize.y)					, position.y + (z/chunkSize.z)),
+			2f*(y  / chunkSize.y) 				+ (float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), (y / chunkSize.y)					, position.y + ((z + voxelWidth)/chunkSize.z)),
+			2f*(y  / chunkSize.y) 				+ (float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, (y / chunkSize.y)					, position.y + ((z + voxelWidth)/chunkSize.z)),
+			2f*((y  + voxelWidth) / chunkSize.y) + (float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, ((y + voxelWidth) / chunkSize.y)	, position.y + (z/chunkSize.z)),
+			2f*((y  + voxelWidth) / chunkSize.y) + (float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), ((y + voxelWidth) / chunkSize.y)	, position.y + (z/chunkSize.z)),
+			2f*((y  + voxelWidth) / chunkSize.y) + (float)SimplexNoise.noise (position.x + ((x + voxelWidth)/chunkSize.x), ((y + voxelWidth) / chunkSize.y)	, position.y + ((z + voxelWidth)/chunkSize.z)),
+			2f*((y  + voxelWidth) / chunkSize.y) + (float)SimplexNoise.noise (position.x + (x/chunkSize.x)				, ((y + voxelWidth) / chunkSize.y)	, position.y + ((z + voxelWidth)/chunkSize.z))
 		};	
 		//*/
 

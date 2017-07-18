@@ -17,3 +17,9 @@ public struct GridCell
 		val = values;
 	}
 };
+
+//Utility class:
+public static class globalVars
+{
+	public static bool paused = true;
+}
