@@ -8,8 +8,7 @@ using System;
 [RequireComponent(typeof(MeshCollider))]
 public class chunkManager : MonoBehaviour 
 {
-	[Range(-1.0f, 1.0f)]
-	public float isovalue = 0.0f;
+	private float isovalue;
 
 	private MeshFilter mf;
 	private MeshRenderer mr;
@@ -17,7 +16,6 @@ public class chunkManager : MonoBehaviour
 	private VoxelChunk chunk;
 
 	private List<Vector3> vertices = new List<Vector3> ();
-	private List<Vector2> uvs = new List<Vector2> ();
 	private List<int> triangles = new List<int> ();
 
 
@@ -33,24 +31,15 @@ public class chunkManager : MonoBehaviour
 		int offset = 0;
 
 		//EXPERIMENT TO SEE WETHER THE VOXEL TO POLYGON WORKS:
-		for (int y = 0; y < chunk.VoxelRes; y++)
+		for (int y = 0; y < chunk.VoxelRes.y; y++)
 		{
-			for (int z = 0; z < chunk.VoxelRes; z++)
+			for (int z = 0; z < chunk.VoxelRes.z; z++)
 			{
-				for (int x = 0; x < chunk.VoxelRes; x++)
+				for (int x = 0; x < chunk.VoxelRes.x; x++)
 				{
 					GridCell cell = chunk.voxelGrid [x, y, z];
 
-					Triangle[] triArray = new Triangle[] 
-					{
-						new Triangle(new Vector3[3]),
-						new Triangle(new Vector3[3]),
-						new Triangle(new Vector3[3]),
-						new Triangle(new Vector3[3]),
-						new Triangle(new Vector3[3])		
-					};
-
-					MarchingCubes.Polygonise (cell, isovalue, chunk.halfInterpolation, ref triArray, ref vertices, ref uvs, ref triangles, ref offset);// ***EXPERIMENT*** 
+					MarchingCubes.Polygonise (cell, chunk.Isovalue, chunk.HalfInterpolation, ref vertices, ref triangles, ref offset);
 				}
 			}
 		}
@@ -59,14 +48,18 @@ public class chunkManager : MonoBehaviour
 		Debug.Log ("Triangles has: " + (triangles.Count / 3f) + " polygons.");
 		Debug.Log ("Now preparing to draw!");
 
+		//Mesh configuration:
 		mf.mesh.SetVertices (vertices);
 		mf.mesh.SetTriangles (triangles, 0);
-		mf.mesh.SetUVs (0, uvs);
 
+		//Collision: Done for now:
 		mc.sharedMesh = null;
 		mc.sharedMesh = mf.mesh;
-		//missing the normals***
+
+		//missing the normals*** -> Later I'll use gradient to determine real values:
 		mf.mesh.RecalculateNormals();
-		//Missing the uvs***
+
+		//Missing the uvs*** -> Triplanar shading (in progress)
+		//TODO
 	}
 }

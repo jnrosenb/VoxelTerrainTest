@@ -4,6 +4,9 @@
 	{
 		_Color ("Color", Color) = (1,1,1,1)
 		_xPlane ("Albedo wall 1 (RGB)", 2D) = "white" {}
+		_yPlane ("Albedo floor (RGB)", 2D) = "white" {}
+		_zPlane ("Albedo wall 2 (RGB)", 2D) = "white" {}
+
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
 		_Scale ("Texture Scale", Float) = 0.1
@@ -17,7 +20,6 @@
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
 		#pragma surface surf Standard fullforwardshadows
-
 		// Use shader model 3.0 target, to get nicer looking lighting
 		#pragma target 3.0
 
@@ -32,6 +34,8 @@
 		fixed4 _Color;
 
 		sampler2D _xPlane;
+		sampler2D _yPlane;
+		sampler2D _zPlane;
 		float _Scale;
 
 		void surf (Input IN, inout SurfaceOutputStandard o) 
@@ -43,8 +47,8 @@
 			blending /= half3(b, b, b);
 
 			half4 xaxis = tex2D(_xPlane, IN.worldPos.yz * _Scale);
-			half4 yaxis = tex2D(_xPlane, IN.worldPos.xz * _Scale);
-			half4 zaxis = tex2D(_xPlane, IN.worldPos.xy * _Scale);
+			half4 yaxis = tex2D(_yPlane, IN.worldPos.xz * _Scale);
+			half4 zaxis = tex2D(_zPlane, IN.worldPos.xy * _Scale);
 
 			half4 tex = (xaxis * blending.r + yaxis * blending.g + zaxis * blending.b);
 

@@ -12,11 +12,11 @@ public static class MarchingCubes
    	// Given a grid cell and an isolevel, calculate the triangular facets required to represent the isosurface through the cell.
 	// Return the number of triangular facets. The array "triangles" will be loaded up with the vertices at most 5 triangular facets.
 	// 0 will be returned if the grid cell is either totally above of totally below the isolevel.
-	public static int Polygonise(GridCell grid, float isolevel, bool halfInter, ref Triangle[] triangleArray, ref List<Vector3> vertices, ref List<Vector2> uvs, ref List<int> triangles, ref int vertexOffset)// ***EXPERIMENT***
+	public static int Polygonise(GridCell grid, float isolevel, bool halfInter, ref List<Vector3> vertices, ref List<int> triangles, ref int vertexOffset)// ***EXPERIMENT***
 	{
 		
 		Vector3[] vertlist = new Vector3[12]; 	// Array of potential new vertices for new triangles. Max 12.
-		int ntriang; 							// Number of facets to be created on the gridcell.
+		int ntriang = 0; 						// Number of facets to be created on the gridcell.
 		int cubeindex = 0; 						// The int that is gonna be used as the index for the first lookuptable. 
 		int offsetAdd = 0;						// Number of newe vertices created when running this method. ***EXPERIMENT***
 
@@ -35,62 +35,62 @@ public static class MarchingCubes
 		// This cannot be placed on a loop  due to the order in which the vertices for each edge are being detected:
 		if ((edgeTable [cubeindex] & 1) != 0)
 			vertlist [0] = 
-				VertexInterp (isolevel, grid.p [0], grid.p [1], grid.val [0], grid.val [1], halfInter, ref offsetAdd, ref vertices, ref uvs);// ***EXPERIMENT***
+				VertexInterp (isolevel, grid.p [0], grid.p [1], grid.val [0], grid.val [1], halfInter, ref offsetAdd, ref vertices);// ***EXPERIMENT***
 		else
 			vertlist [0] = -Vector3.one;
 		if ((edgeTable [cubeindex] & 2) != 0)
 			vertlist [1] = 
-				VertexInterp(isolevel, grid.p[1], grid.p[2], grid.val[1], grid.val[2], halfInter,  ref offsetAdd, ref vertices, ref uvs);// ***EXPERIMENT***
+				VertexInterp(isolevel, grid.p[1], grid.p[2], grid.val[1], grid.val[2], halfInter,  ref offsetAdd, ref vertices);// ***EXPERIMENT***
 		else
 			vertlist [1] = -Vector3.one;
 		if ((edgeTable[cubeindex] & 4) != 0)
 			vertlist[2] =
-				VertexInterp(isolevel, grid.p[2], grid.p[3], grid.val[2], grid.val[3], halfInter, ref offsetAdd, ref vertices, ref uvs);// ***EXPERIMENT***
+				VertexInterp(isolevel, grid.p[2], grid.p[3], grid.val[2], grid.val[3], halfInter, ref offsetAdd, ref vertices);// ***EXPERIMENT***
 		else
 			vertlist [2] = -Vector3.one;
 		if ((edgeTable[cubeindex] & 8) != 0)
 			vertlist[3] =
-				VertexInterp(isolevel, grid.p[3], grid.p[0], grid.val[3], grid.val[0], halfInter, ref offsetAdd, ref vertices, ref uvs);// ***EXPERIMENT***
+				VertexInterp(isolevel, grid.p[3], grid.p[0], grid.val[3], grid.val[0], halfInter, ref offsetAdd, ref vertices);// ***EXPERIMENT***
 		else
 			vertlist [3] = -Vector3.one;
 		if ((edgeTable[cubeindex] & 16) != 0)
 			vertlist[4] =
-				VertexInterp(isolevel, grid.p[4], grid.p[5], grid.val[4], grid.val[5], halfInter,  ref offsetAdd, ref vertices, ref uvs);// ***EXPERIMENT***
+				VertexInterp(isolevel, grid.p[4], grid.p[5], grid.val[4], grid.val[5], halfInter,  ref offsetAdd, ref vertices);// ***EXPERIMENT***
 		else
 			vertlist [4] = -Vector3.one;
 		if ((edgeTable[cubeindex] & 32) != 0)
 			vertlist[5] =
-				VertexInterp(isolevel, grid.p[5], grid.p[6], grid.val[5], grid.val[6], halfInter,  ref offsetAdd, ref vertices, ref uvs);// ***EXPERIMENT***
+				VertexInterp(isolevel, grid.p[5], grid.p[6], grid.val[5], grid.val[6], halfInter,  ref offsetAdd, ref vertices);// ***EXPERIMENT***
 		else
 			vertlist [5] = -Vector3.one;
 		if ((edgeTable[cubeindex] & 64) != 0)
 			vertlist[6] =
-				VertexInterp(isolevel, grid.p[6], grid.p[7], grid.val[6], grid.val[7], halfInter,  ref offsetAdd, ref vertices, ref uvs);// ***EXPERIMENT***
+				VertexInterp(isolevel, grid.p[6], grid.p[7], grid.val[6], grid.val[7], halfInter,  ref offsetAdd, ref vertices);// ***EXPERIMENT***
 		else
 			vertlist [6] = -Vector3.one;
 		if ((edgeTable[cubeindex] & 128) != 0)
 			vertlist[7] =
-				VertexInterp(isolevel, grid.p[7], grid.p[4], grid.val[7], grid.val[4], halfInter,  ref offsetAdd, ref vertices, ref uvs);// ***EXPERIMENT***
+				VertexInterp(isolevel, grid.p[7], grid.p[4], grid.val[7], grid.val[4], halfInter,  ref offsetAdd, ref vertices);// ***EXPERIMENT***
 		else
 			vertlist [7] = -Vector3.one;
 		if ((edgeTable[cubeindex] & 256) != 0)
 			vertlist[8] =
-				VertexInterp(isolevel, grid.p[0], grid.p[4], grid.val[0], grid.val[4], halfInter,  ref offsetAdd, ref vertices, ref uvs);// ***EXPERIMENT***
+				VertexInterp(isolevel, grid.p[0], grid.p[4], grid.val[0], grid.val[4], halfInter,  ref offsetAdd, ref vertices);// ***EXPERIMENT***
 		else
 			vertlist [8] = -Vector3.one;
 		if ((edgeTable[cubeindex] & 512) != 0)
 			vertlist[9] =
-				VertexInterp(isolevel, grid.p[1], grid.p[5], grid.val[1], grid.val[5], halfInter,  ref offsetAdd, ref vertices, ref uvs);// ***EXPERIMENT***
+				VertexInterp(isolevel, grid.p[1], grid.p[5], grid.val[1], grid.val[5], halfInter,  ref offsetAdd, ref vertices);// ***EXPERIMENT***
 		else
 			vertlist [9] = -Vector3.one;
 		if ((edgeTable[cubeindex] & 1024) != 0)
 			vertlist[10] =
-				VertexInterp(isolevel, grid.p[2], grid.p[6], grid.val[2], grid.val[6], halfInter,  ref offsetAdd, ref vertices, ref uvs);// ***EXPERIMENT***
+				VertexInterp(isolevel, grid.p[2], grid.p[6], grid.val[2], grid.val[6], halfInter,  ref offsetAdd, ref vertices);// ***EXPERIMENT***
 		else
 			vertlist [10] = -Vector3.one;
 		if ((edgeTable[cubeindex] & 2048) != 0)
 			vertlist[11] =
-				VertexInterp(isolevel, grid.p[3], grid.p[7], grid.val[3], grid.val[7], halfInter,  ref offsetAdd, ref vertices, ref uvs);// ***EXPERIMENT***
+				VertexInterp(isolevel, grid.p[3], grid.p[7], grid.val[3], grid.val[7], halfInter,  ref offsetAdd, ref vertices);// ***EXPERIMENT***
 		else
 			vertlist [11] = -Vector3.one;
 
@@ -112,16 +112,12 @@ public static class MarchingCubes
 		ntriang = 0;
 		for (int i = 0; triTable[cubeindex, i] != -1; i += 3) 
 		{
-			//triangleArray[ntriang].p[0] = vertlist[triTable[cubeindex, i + 0]];
-			//triangleArray[ntriang].p[1] = vertlist[triTable[cubeindex, i + 1]];
-			//triangleArray[ntriang].p[2] = vertlist[triTable[cubeindex, i + 2]];
-			//ntriang++;
-
 			//Adds the vertices indices to the triangles list. 
 			//Indices must be corrected by offset!
 			triangles.Add (indexMapper[triTable[cubeindex, i + 0]] + vertexOffset); // ***EXPERIMENT***
 			triangles.Add (indexMapper[triTable[cubeindex, i + 1]] + vertexOffset); // ***EXPERIMENT***
 			triangles.Add (indexMapper[triTable[cubeindex, i + 2]] + vertexOffset); // ***EXPERIMENT***
+			ntriang++;
 		}
 
 		vertexOffset += offsetAdd;// ***EXPERIMENT***
@@ -131,7 +127,7 @@ public static class MarchingCubes
 
    	// Linearly interpolate the position where an isosurface cuts an edge between two vertices, 
 	// each with their own scalar value. Returns a vertex.
-	private static Vector3 VertexInterp (float isolevel, Vector3 p1, Vector3 p2, float valp1, float valp2, bool halfInter, ref int offsetAdd, ref List<Vector3> vertices, ref List<Vector2> uvs)// ***EXPERIMENT***
+	private static Vector3 VertexInterp (float isolevel, Vector3 p1, Vector3 p2, float valp1, float valp2, bool halfInter, ref int offsetAdd, ref List<Vector3> vertices)
 	{
 		float mu;
 		Vector3 p;
@@ -160,7 +156,7 @@ public static class MarchingCubes
 		p.y = p1.y + mu * (p2.y - p1.y);
 		p.z = p1.z + mu * (p2.z - p1.z);
 
-		vertices.Add (p);// ***EXPERIMENT***
+		vertices.Add (p);
 		return p;
 	}
 
