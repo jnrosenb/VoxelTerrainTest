@@ -18,4 +18,9 @@ public class ToggleMenu : MonoBehaviour
 			this.gameObject.SetActive (true);
 		}
 	}
+
+	public void exitGame()
+	{
+		Application.Quit ();
+	}
 }

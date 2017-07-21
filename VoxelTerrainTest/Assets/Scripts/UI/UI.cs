@@ -7,6 +7,7 @@ using System;
 public class UI : MonoBehaviour 
 {
 	public GameObject voxelmapTemplate;
+	public GameObject player;
 	private VoxelMap3D current;
 
 	float isovalue;
@@ -26,11 +27,22 @@ public class UI : MonoBehaviour
 	public GameObject halfInterToggle;
 
 
+
+	//Start method:
+	void Start()
+	{
+		player = GameObject.Instantiate (player);
+
+		//For now I'll place this here:
+		player.transform.position = Vector3.zero;
+	}
+
+
+
 	//Method that generates the terrain based on the args on the UI:
 	public void resetTerrain ()
 	{
 		isovalue = isoSlider.GetComponent<Slider>().value;
-
 
 		float x, y, z;
 		float.TryParse (xsizeBox.GetComponent<InputField> ().text, out x);
@@ -49,6 +61,9 @@ public class UI : MonoBehaviour
 			Destroy (current.gameObject);
 
 		current = GameObject.Instantiate (voxelmapTemplate).GetComponent<VoxelMap3D>();
+		current.name = "VoxelMap";
+		player.name = "Player";
+		current.player = player;
 
 		current.StartGeneration (args);
 	}
