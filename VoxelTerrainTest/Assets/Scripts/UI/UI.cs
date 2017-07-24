@@ -34,7 +34,7 @@ public class UI : MonoBehaviour
 		player = GameObject.Instantiate (player);
 
 		//For now I'll place this here:
-		player.transform.position = Vector3.zero;
+		player.transform.position = new Vector3(0f, 50f, 0f);
 	}
 
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 //This class represents a chunk (fixed size 3d grid) of voxels:
-public class VoxelChunk : MonoBehaviour 
+public class VoxelChunk
 {
 	//Chunk configuration:
 	private bool halfInterpolation;
@@ -23,10 +23,10 @@ public class VoxelChunk : MonoBehaviour
 	private int cellCount;
 	private int vertexCount;
 
-	//Visual aid
-	private LineRenderer[] lineArray;
-	public bool seeBoundingBox = false;
-	public bool seeOuterBounds = false;
+	////Visual aid (ONLY WHEN THIS IS A MONOBEHAVIOUR)
+	//private LineRenderer[] lineArray;
+	//public bool seeBoundingBox = false;
+	//public bool seeOuterBounds = false;
 
 	//The 3d array that contains each cell:
 	public GridCell[,,] voxelGrid;
@@ -34,7 +34,8 @@ public class VoxelChunk : MonoBehaviour
 
 
 	// ARGS: [0]: starting pos offset, [1]: chunkSize, [2]: VoxelRes, [3]: Isovalue, [4]: halfInterpolation, [5]: voxelWidth.
-	public void postStart (List<System.Object> args) // Awake()
+	public VoxelChunk (List<System.Object> args)
+	//public void postStart (List<System.Object> args) // Awake()
 	{
 		//Unpacking data from the args:
 		Vector2 startingPositionOffset = (Vector2)args[0];
@@ -53,11 +54,12 @@ public class VoxelChunk : MonoBehaviour
 		vertexCount = (int)((voxelRes.x + 1) * (voxelRes.y + 1) * (voxelRes.z + 1));
 
 		//Visual aid:
-		lineArray = new LineRenderer[cellCount];
+		//lineArray = new LineRenderer[cellCount];
 		
 		//Sets the grid with the voxel cells:
 		setVoxelGrid (startingPositionOffset);
 	}
+
 
 
 	//Set the vertices of the chunk. Starting always in origin:
@@ -74,6 +76,7 @@ public class VoxelChunk : MonoBehaviour
 			}
 		}
 	}
+
 
 
 	//Sets each gridCell with the corresponding values of each of its vertices:
@@ -99,7 +102,6 @@ public class VoxelChunk : MonoBehaviour
 			new Vector3 (x - chunkSize.x/2f + voxelWidth, y + voxelWidth, z - chunkSize.z/2f + voxelWidth),
 			new Vector3 (x - chunkSize.x/2f, y + voxelWidth, z - chunkSize.z/2f + voxelWidth)
 		};
-
 
 		//* 3D Noise terrains:
 		float[] values = new float[] 
@@ -151,7 +153,6 @@ public class VoxelChunk : MonoBehaviour
 		};	
 		//*/
 
-
 		/* Using a 2d scalar field:
 		float[] values = new float[] 
 		{
@@ -184,6 +185,8 @@ public class VoxelChunk : MonoBehaviour
 	}
 
 
+
+	/*
 	//Debug method for visualizing the cells:
 	private void drawCellSpace(Vector3 centerSpace, float halfSpaceLength, int index)
 	{
@@ -229,5 +232,6 @@ public class VoxelChunk : MonoBehaviour
 		line.SetPosition (14, vertices[6]);
 		line.SetPosition (15, vertices[4]);
 	}
+	//*/
 
 }//EndOfClass: VoxelChunk-----//
