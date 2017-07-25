@@ -10,6 +10,8 @@ For the 3d terrains I'm using 3d simplex noise, a c# implementation based on ste
 
 Right now, you can play with the voxelMap prefab and choose a radius (which will determine how many chunks of terrain it creates), the isovalue, and the size of each chunk in x axis, y axis and z axis.
 
+Also, if you check the chunk loading checkbox, it will create new chunks as you move in realtime.
+
 
 ![alt text](http://i.imgur.com/bOBKCCT.png)
 
