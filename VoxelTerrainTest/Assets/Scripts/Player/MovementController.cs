@@ -56,6 +56,10 @@ public class MovementController : MonoBehaviour
 				if (rgbdy.velocity.y < maxVerticalSpeed)
 					rgbdy.AddForce (Vector3.up * jumpStrength);
 			}
+			if (Input.GetKeyUp (KeyCode.Mouse0))
+			{
+				rgbdy.velocity = new Vector3(rgbdy.velocity.x, 0f, rgbdy.velocity.z);
+			}
 		}
 		else
 		{
